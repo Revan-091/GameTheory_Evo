@@ -7,13 +7,20 @@ import pandas as pd
 
 class Agent:
     def __init__(self, team, agent_type, position, health, attack_range, attack_strength):
+        # NEW CODE (DELETE PROBABLY)
+        self.players = ["A", "B"]
+        self.strategies = {
+            "A": ["Attack", "Defend"],
+            "B": ["Attack", "Defend"]
+        }
+        ###########################
         self.team = team
         self.agent_type = agent_type
         self.position = position
         self.health = health
         self.attack_range = attack_range
         self.attack_strength = attack_strength
-        self.last_action = "attack"
+        self.last_action = "Attack"
 
     payoff_matrix = None
     
@@ -57,7 +64,15 @@ class Agent:
 
 
     def chosen_action(self, opponent_strategy):
-        best_response_index = np.argmax(self.payoff_matrix[(self.team, opponent_strategy)][:, self.players.index(self.team)])
+        # NEW CODE (DELETE PROBABLY)
+        new_interpret = {
+            "Attack": "A",
+            "Defend": "B"
+        }
+        print((self.team, new_interpret[opponent_strategy]))
+        best_response_index = np.argmax(self.payoff_matrix[(self.team, new_interpret[opponent_strategy])][:, self.players.index(self.team)])
+        ###################################################
+        print(best_response_index)
         return self.strategies[self.team][best_response_index]
 
 def main():
@@ -135,6 +150,7 @@ def main():
         return formation_a, formation_b
 
     players = ["A", "B"]
+
     strategies = {
         "A": ["Attack", "Defend"],
         "B": ["Attack", "Defend"]

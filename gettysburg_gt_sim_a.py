@@ -10,7 +10,7 @@ import pandas as pd
 class AgentTeamA:
     def __init__(self, agent_type, position, health, attack_range, attack_strength, last_action):
         self.team = "A"
-        self.agent_type = agent_type  # You should set the actual type later based on Infantry/Cavalry
+        self.agent_type = agent_type  
         self.position = position
         self.health = health
         self.attack_range = attack_range

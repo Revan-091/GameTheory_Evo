@@ -12,7 +12,7 @@ python3 gettysburg_gt_sim_a.py --num_infantry ### --num_cavalry ###
 What this code does is create two sides to the battle, team A (which will depict the union), and the opponent team (which will depict the Confederation).
 For both teams, it creates also two types of units (agents): Infantry, which have lower health, but higher range; and cavalry, which have a higher health and strength of attack, but lower attack range. The two teams will then choose the best strategy from a dictionary which will contain them, based on the best_response_index to the other agent's action. Deaths will be removed from the battlefield grid and numerated, as well as the movements made by the agents as to visualize them in the next program.
 
-The user will input the command above, and instead of hashtags, the user will be able to manipulate the number of infantry and cavalry available, as to conduct research into what would have happened if the numbers of the battle changed.
+The user will input the command above, and instead of hashtags, the user will be able to manipulate the number of infantry and cavalry available, as to conduct soft research into what would have happened if the numbers of the battle changed.
 
 
 To visualize it:

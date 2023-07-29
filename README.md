@@ -22,6 +22,3 @@ python3 gettysburg_sim_a_vis.py
 ```
 
 What this program does is it reads the information stored in the documents pertaining to the deaths of both teams, as well as the movements of each team per step taken in the battle, and will accordingly plot their movements and deaths in the battlefield grid, to create a more user friendly output of the battle, which the user could then compare to the actual result of the battle.
-## and bla bla
-
-...

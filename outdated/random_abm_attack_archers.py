@@ -88,84 +88,6 @@ def get_best_response(player, opponent_strategy):
     return strategies[player][best_response_index]
 
 
-
-
-# Simulation parameters
-args = parse_arguments()
-num_soldiers_a = args.num_soldiers // 2
-num_archers_a = args.num_archers // 2
-num_cavalry_a = args.num_cavalry // 2
-num_agents_a = num_soldiers_a + num_archers_a + num_cavalry_a
-num_agents_b = args.num_soldiers - num_soldiers_a + args.num_archers - num_archers_a + args.num_cavalry - num_cavalry_a
-num_agents = num_agents_a + num_agents_b
-max_steps = 1000
-
-
-deaths_A = {}
-deaths_B = {}
-for step in range(max_steps):
-    deaths_A[step + 1] = 0 
-    deaths_B[step + 1] = 0
-
-# Create agents
-agents = []
-num_agents_a = num_agents // 2
-num_soldiers_a = num_agents_a // 2
-num_archers_a = num_agents_a // 4  # Assuming 1/4 of Team A agents are Archers
-num_cavalry_a = num_agents_a // 4  # Assuming 1/4 of Team A agents are Cavalry
-num_agents_b = num_agents - num_agents_a
-num_soldiers_b = num_agents_b // 2
-num_archers_b = num_agents_b // 4  # Assuming 1/4 of Team B agents are Archers
-num_cavalry_b = num_agents_b // 4  # Assuming 1/4 of Team B agents are Cavalry
-
-# Create agents for team A
-for _ in range(num_archers_a):
-    position = (random.uniform(0, 53), random.uniform(170, 200))
-    health = 80
-    attack_range = random.uniform(30, 50)  # Archers have a longer attack range
-    attack_strength = random.randint(15, 40)  # Archers hit less hard
-    agents.append(Agent("A", "Archer", position, health, attack_range, attack_strength))
-
-for _ in range(num_soldiers_a):
-    position = (random.uniform(0, 200), random.uniform(140, 170))
-    health = 100
-    attack_range = random.uniform(1, 5)
-    attack_strength = random.uniform(20, 30)
-    agents.append(Agent("A", "Soldier", position, health, attack_range, attack_strength))
-
-for _ in range(num_cavalry_a):
-    position = (random.uniform(0, 200), random.uniform(120, 140))  # Adjust position as desired
-    health = 150
-    attack_range = random.uniform(6, 10)  # Cavalry has a slightly longer attack range than Soldier
-    attack_strength = random.uniform(45, 60)  # Cavalry's attack strength
-    agents.append(Agent("A", "Cavalry", position, health, attack_range, attack_strength))
-
-# Create agents for team B
-for _ in range(num_archers_b):
-    position = (random.uniform(0, 200), random.uniform(0, 30))
-    health = 80
-    attack_range = random.uniform(30, 50)  # Archers have a longer attack range
-    attack_strength = random.randint(15, 40)  # Archers hit less hard
-    agents.append(Agent("B", "Archer", position, health, attack_range, attack_strength))
-
-for _ in range(num_soldiers_b):
-    position = (random.uniform(0, 200), random.uniform(30, 60))
-    health = 100
-    attack_range = random.uniform(1, 5)  # Archers have a longer attack range
-    attack_strength = random.randint(20, 30)  # Archers hit less hard
-    agents.append(Agent("B", "Soldier", position, health, attack_range, attack_strength))
-
-for _ in range(num_cavalry_b):
-    position = (random.uniform(0, 200), random.uniform(70, 100))  # Adjust position as desired
-    health = 150
-    attack_range = random.uniform(2, 8)  # Cavalry has a slightly longer attack range than Soldier
-    attack_strength = random.uniform(45, 60)  # Cavalry's attack strength
-    agents.append(Agent("B", "Cavalry", position, health, attack_range, attack_strength))
-
-# Initialize figure and counter for visualization
-fig, ax = plt.subplots()
-counter = ax.text(8, 9.5, f"Agents B: {num_agents_b}", fontsize=12, ha='right')
-
 # Win-Stay, Lose-Shift strategy implementation
 def win_stay_lose_shift_archer(agent, nearest_enemy):
     if agent.agent_type == 'Archer':
@@ -195,104 +117,186 @@ def win_stay_lose_shift_archer(agent, nearest_enemy):
     # Store the current action for the next step
     agent.last_action = "attack" if nearest_enemy.health > 0 else "move"
 
-#agents_active_list = []
-# Simulation loop
-for step in range(max_steps):
-    # Iterate over all agents
 
-    formation_a, formation_b = create_formations(agents)
-    
-    active_agents = len(agents)
-    for agent in agents:
-        # Find the nearest enemy agent from the opposite team
-        nearest_enemy = min([a for a in agents if a.team != agent.team], key=lambda a: agent.distance_to(a))
 
-        # Get agents in range of the current agent
-        agents_in_range = agent.get_agents_in_range(agents, agent.attack_range)
+def main():
+    # Simulation parameters
+    args = parse_arguments()
+    num_soldiers_a = args.num_soldiers // 2
+    num_archers_a = args.num_archers // 2
+    num_cavalry_a = args.num_cavalry // 2
+    num_agents_a = num_soldiers_a + num_archers_a + num_cavalry_a
+    num_agents_b = args.num_soldiers - num_soldiers_a + args.num_archers - num_archers_a + args.num_cavalry - num_cavalry_a
+    num_agents = num_agents_a + num_agents_b
+    max_steps = 1000
+
+    deaths_A = {}
+    deaths_B = {}
+    for step in range(max_steps):
+        deaths_A[step + 1] = 0 
+        deaths_B[step + 1] = 0
+
+    # Create agents
+    agents = []
+    num_agents_a = num_agents // 2
+    num_soldiers_a = num_agents_a // 2
+    num_archers_a = num_agents_a // 4  # Assuming 1/4 of Team A agents are Archers
+    num_cavalry_a = num_agents_a // 4  # Assuming 1/4 of Team A agents are Cavalry
+    num_agents_b = num_agents - num_agents_a
+    num_soldiers_b = num_agents_b // 2
+    num_archers_b = num_agents_b // 4  # Assuming 1/4 of Team B agents are Archers
+    num_cavalry_b = num_agents_b // 4  # Assuming 1/4 of Team B agents are Cavalry
+
+    # Create agents for team A
+    for _ in range(num_archers_a):
+        position = (random.uniform(0, 53), random.uniform(170, 200))
+        health = 80
+        attack_range = random.uniform(30, 50)  # Archers have a longer attack range
+        attack_strength = random.randint(15, 40)  # Archers hit less hard
+        agents.append(Agent("A", "Archer", position, health, attack_range, attack_strength))
+
+    for _ in range(num_soldiers_a):
+        position = (random.uniform(0, 200), random.uniform(140, 170))
+        health = 100
+        attack_range = random.uniform(1, 5)
+        attack_strength = random.uniform(20, 30)
+        agents.append(Agent("A", "Soldier", position, health, attack_range, attack_strength))
+
+    for _ in range(num_cavalry_a):
+        position = (random.uniform(0, 200), random.uniform(120, 140))  # Adjust position as desired
+        health = 150
+        attack_range = random.uniform(6, 10)  # Cavalry has a slightly longer attack range than Soldier
+        attack_strength = random.uniform(45, 60)  # Cavalry's attack strength
+        agents.append(Agent("A", "Cavalry", position, health, attack_range, attack_strength))
+
+    # Create agents for team B
+    for _ in range(num_archers_b):
+        position = (random.uniform(0, 200), random.uniform(0, 30))
+        health = 80
+        attack_range = random.uniform(30, 50)  # Archers have a longer attack range
+        attack_strength = random.randint(15, 40)  # Archers hit less hard
+        agents.append(Agent("B", "Archer", position, health, attack_range, attack_strength))
+
+    for _ in range(num_soldiers_b):
+        position = (random.uniform(0, 200), random.uniform(30, 60))
+        health = 100
+        attack_range = random.uniform(1, 5)  # Archers have a longer attack range
+        attack_strength = random.randint(20, 30)  # Archers hit less hard
+        agents.append(Agent("B", "Soldier", position, health, attack_range, attack_strength))
+
+    for _ in range(num_cavalry_b):
+        position = (random.uniform(0, 200), random.uniform(70, 100))  # Adjust position as desired
+        health = 150
+        attack_range = random.uniform(2, 8)  # Cavalry has a slightly longer attack range than Soldier
+        attack_strength = random.uniform(45, 60)  # Cavalry's attack strength
+        agents.append(Agent("B", "Cavalry", position, health, attack_range, attack_strength))
+
+    # Initialize figure and counter for visualization
+    fig, ax = plt.subplots()
+    counter = ax.text(8, 9.5, f"Agents B: {num_agents_b}", fontsize=12, ha='right')
+
+
+    #agents_active_list = []
+    # Simulation loop
+    for step in range(max_steps):
+        # Iterate over all agents
+
+        formation_a, formation_b = create_formations(agents)
         
-        if agent.agent_type == 'Archer':
-            # Win-Stay, Lose-Shift strategy for Archer agents
-            win_stay_lose_shift_archer(agent, nearest_enemy)
-        if agent.agent_type == 'A':
-            num_friends, num_enemies = agent.count_friends_and_enemies(agents_in_range)
-            if num_enemies > num_friends:
-                common_point = (100, 150)  # The common point is the center of the map (you can adjust it as desired)
-                agent.retreat_to_common_point(agents, common_point)
-                enemy_formation = formation_b if agent.team == 'A' else formation_a
-                enemy_formation_positions = [a.position for a in enemy_formation]
-                common_point = calculate_centroid(enemy_formation_positions)
+        active_agents = len(agents)
+        for agent in agents:
+            # Find the nearest enemy agent from the opposite team
+            nearest_enemy = min([a for a in agents if a.team != agent.team], key=lambda a: agent.distance_to(a))
 
-                agent.retreat_to_common_point(agents, common_point)
-                
-        if agent.agent_type == 'B':
-            num_friends, num_enemies = agent.count_friends_and_enemies(agents_in_range)
-            if num_enemies > num_friends:
-                common_point = (100, 50)  # The common point is the center of the map (you can adjust it as desired)
-                agent.retreat_to_common_point(agents, common_point)
-                
+            # Get agents in range of the current agent
+            agents_in_range = agent.get_agents_in_range(agents, agent.attack_range)
+            
+            if agent.agent_type == 'Archer':
+                # Win-Stay, Lose-Shift strategy for Archer agents
+                win_stay_lose_shift_archer(agent, nearest_enemy)
+            if agent.agent_type == 'A':
+                num_friends, num_enemies = agent.count_friends_and_enemies(agents_in_range)
+                if num_enemies > num_friends:
+                    common_point = (100, 150)  # The common point is the center of the map (you can adjust it as desired)
+                    agent.retreat_to_common_point(agents, common_point)
+                    enemy_formation = formation_b if agent.team == 'A' else formation_a
+                    enemy_formation_positions = [a.position for a in enemy_formation]
+                    common_point = calculate_centroid(enemy_formation_positions)
 
-        elif agent.agent_type == 'Soldier' or agent.agent_type == 'Cavalry':
-            # Move towards the nearest enemy agent
-            dx = nearest_enemy.position[0] - agent.position[0]
-            dy = nearest_enemy.position[1] - agent.position[1]
-            dx /= agent.distance_to(nearest_enemy)
-            dy /= agent.distance_to(nearest_enemy)
-            agent.position = (agent.position[0] + dx, agent.position[1] + dy)
+                    agent.retreat_to_common_point(agents, common_point)
+                    
+            if agent.agent_type == 'B':
+                num_friends, num_enemies = agent.count_friends_and_enemies(agents_in_range)
+                if num_enemies > num_friends:
+                    common_point = (100, 50)  # The common point is the center of the map (you can adjust it as desired)
+                    agent.retreat_to_common_point(agents, common_point)
+                    
 
-            # Attack if an enemy is within the agent's attack range
-            if agent.distance_to(nearest_enemy) <= agent.attack_range:
-                agent.attack(nearest_enemy)
-                if nearest_enemy.health <= 0:
-                    agents.remove(nearest_enemy)
-                    print(f"{nearest_enemy.team} {nearest_enemy.agent_type} died!")
-                    if agent.team == "A":
-                        deaths_B[step + 1] += 1  # Increment deaths counter for Team B
-                        with open('deaths_team_b.csv', 'a') as file:
-                            file.write(f"{step + 1},{deaths_B[step + 1]}\n")
-                    elif agent.team == "B":
-                        deaths_A[step + 1] += 1  # Increment deaths counter for Team A
-                        with open('deaths_team_a.csv', 'a') as file:
-                            file.write(f"{step + 1},{deaths_A[step + 1]}\n")
+            elif agent.agent_type == 'Soldier' or agent.agent_type == 'Cavalry':
+                # Move towards the nearest enemy agent
+                dx = nearest_enemy.position[0] - agent.position[0]
+                dy = nearest_enemy.position[1] - agent.position[1]
+                dx /= agent.distance_to(nearest_enemy)
+                dy /= agent.distance_to(nearest_enemy)
+                agent.position = (agent.position[0] + dx, agent.position[1] + dy)
 
- #   active_agents_list.append(active_agents)
-  #  with open('active_agents.csv', 'a') as file:
-   #     file.write(f"{step + 1},{active_agents[step + 1]}\n")
-    # Clear the previous frame
-    ax.clear()
+                # Attack if an enemy is within the agent's attack range
+                if agent.distance_to(nearest_enemy) <= agent.attack_range:
+                    agent.attack(nearest_enemy)
+                    if nearest_enemy.health <= 0:
+                        agents.remove(nearest_enemy)
+                        print(f"{nearest_enemy.team} {nearest_enemy.agent_type} died!")
+                        if agent.team == "A":
+                            deaths_B[step + 1] += 1  # Increment deaths counter for Team B
+                            with open('deaths_team_b.csv', 'a') as file:
+                                file.write(f"{step + 1},{deaths_B[step + 1]}\n")
+                        elif agent.team == "B":
+                            deaths_A[step + 1] += 1  # Increment deaths counter for Team A
+                            with open('deaths_team_a.csv', 'a') as file:
+                                file.write(f"{step + 1},{deaths_A[step + 1]}\n")
 
-    # Plot agents
-    for agent in agents:
-        if agent.team == 'A':
-            color = 'red' if agent.agent_type == 'Archer' else 'salmon' if agent.agent_type == 'Soldier' else 'indianred'  # Archers: red, Soldiers: salmon, Cavalry: indianred
-            marker = '^' if agent.agent_type == 'Archer' else 'X' if agent.agent_type == 'Soldier' else 's'  # Archers: ^, Soldiers: X, Cavalry: s
-        if agent.team == "B":
-            color = 'blue' if agent.agent_type == 'Archer' else 'lightblue' if agent.agent_type == 'Soldier' else 'royalblue'  # Archers: blue, Soldiers: lightblue, Cavalry: royalblue
-            marker = 'v' if agent.agent_type == 'Archer' else 'o' if agent.agent_type == 'Soldier' else 'D'  # Archers: v, Soldiers: o, Cavalry: D
-        ax.scatter(agent.position[0], agent.position[1], c=color, marker=marker)
+        #   active_agents_list.append(active_agents)
+        #  with open('active_agents.csv', 'a') as file:
+        #     file.write(f"{step + 1},{active_agents[step + 1]}\n")
+        # Clear the previous frame
+        ax.clear()
 
-    # Set plot limits
-    ax.set_xlim([0, 200])
-    ax.set_ylim([0, 200])
+        # Plot agents
+        for agent in agents:
+            if agent.team == 'A':
+                color = 'red' if agent.agent_type == 'Archer' else 'salmon' if agent.agent_type == 'Soldier' else 'indianred'  # Archers: red, Soldiers: salmon, Cavalry: indianred
+                marker = '^' if agent.agent_type == 'Archer' else 'X' if agent.agent_type == 'Soldier' else 's'  # Archers: ^, Soldiers: X, Cavalry: s
+            if agent.team == "B":
+                color = 'blue' if agent.agent_type == 'Archer' else 'lightblue' if agent.agent_type == 'Soldier' else 'royalblue'  # Archers: blue, Soldiers: lightblue, Cavalry: royalblue
+                marker = 'v' if agent.agent_type == 'Archer' else 'o' if agent.agent_type == 'Soldier' else 'D'  # Archers: v, Soldiers: o, Cavalry: D
+            ax.scatter(agent.position[0], agent.position[1], c=color, marker=marker)
 
-    # Add labels and title
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_title(f'Step {step + 1}')
+        # Set plot limits
+        ax.set_xlim([0, 200])
+        ax.set_ylim([0, 200])
 
-    # Update and display counter
+        # Add labels and title
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_title(f'Step {step + 1}')
+
+        # Update and display counter
+        remaining_agents_b = len([agent for agent in agents if agent.team == 'B'])
+        counter.set_text(f"Agents B: {remaining_agents_b}")
+
+        # Pause to visualize each step
+        plt.pause(0.1)
+
+    # Check winning team and display message
+    remaining_agents_a = len([agent for agent in agents if agent.team == 'A'])
     remaining_agents_b = len([agent for agent in agents if agent.team == 'B'])
-    counter.set_text(f"Agents B: {remaining_agents_b}")
+    if remaining_agents_a == 0:
+        print("Team B won!")
+    elif remaining_agents_b == 0:
+        print("Team A won!")
 
-    # Pause to visualize each step
-    plt.pause(0.1)
+    # Display the final plot
+    plt.show()
 
-# Check winning team and display message
-remaining_agents_a = len([agent for agent in agents if agent.team == 'A'])
-remaining_agents_b = len([agent for agent in agents if agent.team == 'B'])
-if remaining_agents_a == 0:
-    print("Team B won!")
-elif remaining_agents_b == 0:
-    print("Team A won!")
-
-# Display the final plot
-plt.show()
+if __name__ == "__main__":
+    main()

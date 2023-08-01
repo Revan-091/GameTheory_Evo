@@ -5,155 +5,38 @@ import argparse
 import numpy as np
 import pandas as pd
 
+#To run: python3 gettysburg_gt_sim_a.py --num_infantry 300 --num_infantry 200
+#Also need to account for Cemetery Hill...(last stand of the union)
+#Plan is to make the union retreat to common point while still being close to confederates, as to simulate actual battle, then all out attack at cemetery hill, which was the start of the demise of the confederate armyot
 
-
-class AgentTeamA:
-    def __init__(self, agent_type, position, health, attack_range, attack_strength, last_action):
-        self.team = "A"
-        self.agent_type = agent_type  
-        self.position = position
-        self.health = health
-        self.attack_range = attack_range
-        self.attack_strength = attack_strength
-        self.last_action = "Attack"
-
-    def distance_to_agent(self, agent):
-        return math.sqrt((self.position[0] - agent.position[0])**2 + (self.position[1] - agent.position[1])**2)
-
-    def distance_to(self, position):
-        return math.sqrt((self.position[0] - position[0])**2 + (self.position[1] - position[1])**2)
-
-    def attack(self, nearest_enemy):
-        nearest_enemy.health -= self.attack_strength
-
-    def defend(self, agents_in_range):
-        if not agents_in_range:
-            common_point = (100, 150)
-            self.retreat_to_common_point(common_point)
-
-    def min_health_of_opponents(self, other_agents):
-        return min(agent.health for agent in other_agents if agent.team != self.team)
-
-    def get_agents_in_range(self, agents, range_distance):
-        return [agent for agent in agents if agent != self and self.distance_to_agent(agent) <= range_distance]
-
-    def count_friends_and_enemies(self, agents_in_range):
-        friends = [agent for agent in agents_in_range if agent.team == self.team]
-        enemies = [agent for agent in agents_in_range if agent.team != self.team]
-        return len(friends), len(enemies)
-
-    def retreat_to_common_point(self, common_point):
-        dx = common_point[0] - self.position[0]
-        dy = common_point[1] - self.position[1]
-        distance_to_common_point = self.distance_to(common_point)
-        if distance_to_common_point > 0:
-            dx /= distance_to_common_point
-            dy /= distance_to_common_point
-            self.position = (self.position[0] - dx, self.position[1] - dy)
-
-    def set_game_theory_info(self, strategies, payoff_matrix):
-        AgentTeamA.strategies = strategies
-        AgentTeamA.payoff_matrix = payoff_matrix
-
-    def chosen_action(self, opponent_strategy):
-        # NEW CODE (DELETE PROBABLY)
-        new_interpret = {
-            "Attack": "A",
-            "Defend": "B"
-        }
-        new_interpret_b = {
-            "Attack": "A",
-            "Defend": "B"
-        }
-        #opponent_index = strategies[opponent_team].index(opponent_strategy)
-        print("Agent team, opponent strategy")
-        print((self.team, new_interpret[opponent_strategy]))
-        best_response_index = np.argmax(self.payoff_matrix[(self.team, new_interpret[opponent_strategy])][:, self.players.index(self.team)])
-        print(best_response_index)
-        #best_response_action = strategies[self.team][best_response_index]
-        #return best_response_action
-        return self.strategies[self.team][best_response_index]
-
-class AgentOpponentTeam:
-    def __init__(self, agent_type, position, health, attack_range, attack_strength, last_action):
-        self.team = "opponent"
-        self.agent_type = agent_type  
-        self.position = position
-        self.health = health
-        self.attack_range = attack_range
-        self.attack_strength = attack_strength
-        self.last_action = "Attack"
-
-    def distance_to_agent(self, agent):
-        return math.sqrt((self.position[0] - agent.position[0])**2 + (self.position[1] - agent.position[1])**2)
-
-    def distance_to(self, position):
-        return math.sqrt((self.position[0] - position[0])**2 + (self.position[1] - position[1])**2)
-
-    def attack(self, nearest_enemy):
-        nearest_enemy.health -= self.attack_strength
-
-    def defend(self, agents_in_range):
-        if not agents_in_range:
-            common_point = (100, 50)  # Opponent team's common point (change as needed)
-            self.retreat_to_common_point(common_point)
-
-    def retreat_to_common_point(self, common_point):
-        dx = common_point[0] - self.position[0]
-        dy = common_point[1] - self.position[1]
-        distance_to_common_point = self.distance_to(common_point)
-        if distance_to_common_point > 0:
-            dx /= distance_to_common_point
-            dy /= distance_to_common_point
-            self.position = (self.position[0] - dx, self.position[1] - dy)
-
-    def get_agents_in_range(self, agents, range_distance):
-        return [agent for agent in agents if agent != self and self.distance_to_agent(agent) <= range_distance]
-
-    def count_friends_and_enemies(self, agents_in_range):
-        friends = [agent for agent in agents_in_range if agent.team == self.team]
-        enemies = [agent for agent in agents_in_range if agent.team != self.team]
-        return len(friends), len(enemies)
-
-    def set_game_theory_info(self, strategies, payoff_matrix):
-        AgentTeamA.strategies = strategies
-        AgentTeamA.payoff_matrix = payoff_matrix
-    
-    def chosen_action(self, opponent_strategy):
-        # NEW CODE (DELETE PROBABLY)
-        new_interpret = {
-            "Attack": "A",
-            "Defend": "B"
-        }
-        opponent_index = team_a_strategies.index(opponent_strategy)
-        print("Agent team, opponent strategy")
-        print((self.team, new_interpret[opponent_strategy]))
-        best_response_index = np.argmax(self.payoff_matrix[(self.team, new_interpret[opponent_strategy])][:, self.players.index(self.team)])
-        print(best_response_index)
-        best_response_action = strategies[self.team][best_response_index]
-        return best_response_action
-        #return self.strategies[self.team][best_response_index]
-
-
+#Todo al 10% de la batalla actual
+#Cambiar como se crean los agentes para estar a raya con el campo actual
 
 
 def main():
-    def calculate_centroid(positions):
-        num_positions = len(positions)
-        if num_positions == 0:
-            return (0, 0)
-        sum_x = sum(pos[0] for pos in positions)
-        sum_y = sum(pos[1] for pos in positions)
-        return (sum_x / num_positions, sum_y / num_positions)
+    battlefield = Battlefield(2000, 1000)
 
-    def parse_arguments():
-        parser = argparse.ArgumentParser(description='Simulate a battle between two teams with infantry and cavalry.')
-        parser.add_argument('--num_infantry', type=int, default=250, help='Number of infantry per team')
-        parser.add_argument('--num_cavalry', type=int, default=125, help='Number of cavalry per team')
-        return parser.parse_args()
+    battlefield.set_region(400, 600, 700, 900, 1)
+
+    
+    # Access cell values
+    print(battlefield.get_cell_value(450, 550))  
+    print(battlefield.get_cell_value(650, 850))  
+    print(battlefield.get_cell_value(1000, 1000)) 
+    #create_battlefield.....
+    #for step in range(max_range):
+    #    create_agents_in_region
+    #    for agent in agents[]
+    #    if team == A
+    #        if infantry....
+    #            a_infantry_action(chosen_action)
+    #            .....
 
 
+############################################################################################
+############################################################################################
 
+def setup_battle():
     
     args = parse_arguments()
     num_infantry_a = args.num_infantry // 2
@@ -178,9 +61,11 @@ def main():
     num_infantry_opponent = num_agents_opponent // 2
     num_cavalry_opponent = num_agents_opponent // 4
 
+
     def create_agents_in_region(agents_list, team, agent_type, num_agents, region_boundary):
         region_left, region_right, region_top, region_bottom = region_boundary
         for _ in range(num_agents):
+            print(f"This is {agent_type}")
             if agent_type == "Infantry":
                 position = (random.uniform(region_left, region_right), random.uniform(region_bottom, region_top))
                 health = 100
@@ -259,87 +144,294 @@ def main():
         attack_strength = random.uniform(20, 50)
         AgentOpponentTeam.set_game_theory_info(agents_opponent_team, strategies_opponent_team, payoff_matrix_opponent_team)
 
-    agent_movements = []
-    agent_movements = pd.DataFrame({
-        "Step": step,
-        "Team": team,
-        "Agent_Type": agent_type,
-        "X": agent_position[0],
-        "Y": agent_position[1]
-    })
+    agent_movements = {}
 
-    for step in range(max_steps):
-        for agent_team_a in agents_team_a:
-            nearest_enemy = min(agents_opponent_team, key=lambda a: agent_team_a.distance_to_agent(a), default=None)
-            if nearest_enemy is None:
-                continue
-            agents_in_range = agent_team_a.get_agents_in_range(agents_opponent_team, agent_team_a.attack_range)
 
-            if agent_team_a.agent_type == 'Infantry':
-                opponent_strategy = nearest_enemy.last_action
-                chosen_action = agent_team_a.chosen_action(AgentTeamA.strategies['A'],
-                                                           AgentTeamA.payoff_matrix,
-                                                           opponent_strategy)
-                if chosen_action == "Attack":
-                    if nearest_enemy.health > 0 and agent_team_a.distance_to_agent(nearest_enemy) <= agent_team_a.attack_range:
+    
+    def a_infantry_actions(chosen_action):
+        nearest_enemy = min(agents_opponent_team, key=lambda a: agent_team_a.distance_to_agent(a), default=None)
+        agents_in_range = agent_team_a.get_agents_in_range(agents_opponent_team, agent_team_a.attack_range)
+        opponent_strategy = nearest_enemy.last_action
+        chosen_action = agent_team_a.chosen_action(AgentTeamA.strategies['A'], AgentTeamA.payoff_matrix, opponent_strategy)
+        print(chosen_action)
+        if chosen_action == "Attack":
+            if nearest_enemy.health > 0 and agent_team_a.distance_to_agent(nearest_enemy) <= agent_team_a.attack_range:
+                agent_team_a.attack(nearest_enemy)
+                if nearest_enemy.health <= 0:
+                    agents_opponent_team.remove(nearest_enemy)
+                    deaths_B[step + 1] += 1
+                    with open('deaths_team_b_gettysburg.csv', 'a') as file:
+                        file.write(f"{step + 1},{deaths_B[step + 1]}\n")
+        elif chosen_action == "Defend":
+            num_friends, num_enemies = agent_team_a.count_friends_and_enemies(agents_in_range)
+            if num_enemies > num_friends:
+                common_point = (100, 150)
+                agent_team_a.retreat_to_common_point(common_point)
+                if nearest_enemy.health > 0:
+                    if agent_team_a.distance_to_agent(nearest_enemy) <= agent_team_a.attack_range:
                         agent_team_a.attack(nearest_enemy)
                         if nearest_enemy.health <= 0:
                             agents_opponent_team.remove(nearest_enemy)
                             deaths_B[step + 1] += 1
                             with open('deaths_team_b_gettysburg.csv', 'a') as file:
                                 file.write(f"{step + 1},{deaths_B[step + 1]}\n")
-                elif chosen_action == "Defend":
-                    num_friends, num_enemies = agent_team_a.count_friends_and_enemies(agents_in_range)
-                    if num_enemies > num_friends:
-                        common_point = (100, 150)
-                        agent_team_a.retreat_to_common_point(common_point)
-                        if nearest_enemy.health > 0:
-                            if agent_team_a.distance_to_agent(nearest_enemy) <= agent_team_a.attack_range:
-                                agent_team_a.attack(nearest_enemy)
-                                if nearest_enemy.health <= 0:
-                                    agents_opponent_team.remove(nearest_enemy)
-                                    deaths_B[step + 1] += 1
-                                    with open('deaths_team_b_gettysburg.csv', 'a') as file:
-                                        file.write(f"{step + 1},{deaths_B[step + 1]}\n")
 
-            elif agent_team_a.agent_type == 'Cavalry':
-                opponent_strategy = nearest_enemy.last_action
-                chosen_action = agent_team_a.chosen_action(AgentTeamA.strategies['A'],
-                                                           AgentTeamA.payoff_matrix,
-                                                           opponent_strategy)
-                if chosen_action == "Attack":
-                    if nearest_enemy.health > 0 and agent_team_a.distance_to_agent(nearest_enemy) <= agent_team_a.attack_range:
+    def a_cavalry_actions(chosen_action):
+        nearest_enemy = min(agents_opponent_team, key=lambda a: agent_team_a.distance_to_agent(a), default=None)
+        agents_in_range = agent_team_a.get_agents_in_range(agents_opponent_team, agent_team_a.attack_range)
+        opponent_strategy = nearest_enemy.last_action
+        chosen_action = agent_team_a.chosen_action(AgentTeamA.strategies['A'], AgentTeamA.payoff_matrix, opponent_strategy)
+        if chosen_action == "Attack":
+            if nearest_enemy.health > 0 and agent_team_a.distance_to_agent(nearest_enemy) <= agent_team_a.attack_range:
+                agent_team_a.attack(nearest_enemy)
+                if nearest_enemy.health <= 0:
+                    agents_opponent_team.remove(nearest_enemy)
+                    deaths_B[step + 1] += 1
+                    with open('deaths_team_b_gettysburg.csv', 'a') as file:
+                        file.write(f"{step + 1},{deaths_B[step + 1]}\n")
+        elif chosen_action == "Defend":
+            num_friends, num_enemies = agent_team_a.count_friends_and_enemies(agents_in_range)
+            if num_enemies > num_friends:
+                common_point = (100, 150)
+                agent_team_a.retreat_to_common_point(common_point)
+                if nearest_enemy.health > 0:
+                    if agent_team_a.distance_to_agent(nearest_enemy) <= agent_team_a.attack_range:
                         agent_team_a.attack(nearest_enemy)
                         if nearest_enemy.health <= 0:
                             agents_opponent_team.remove(nearest_enemy)
                             deaths_B[step + 1] += 1
                             with open('deaths_team_b_gettysburg.csv', 'a') as file:
                                 file.write(f"{step + 1},{deaths_B[step + 1]}\n")
-                elif chosen_action == "Defend":
-                    num_friends, num_enemies = agent_team_a.count_friends_and_enemies(agents_in_range)
-                    if num_enemies > num_friends:
-                        common_point = (100, 150)
-                        agent_team_a.retreat_to_common_point(common_point)
-                        if nearest_enemy.health > 0:
-                            if agent_team_a.distance_to_agent(nearest_enemy) <= agent_team_a.attack_range:
-                                agent_team_a.attack(nearest_enemy)
-                                if nearest_enemy.health <= 0:
-                                    agents_opponent_team.remove(nearest_enemy)
-                                    deaths_B[step + 1] += 1
-                                    with open('deaths_team_b_gettysburg.csv', 'a') as file:
-                                        file.write(f"{step + 1},{deaths_B[step + 1]}\n")
-
-            agent_team_a.last_action = chosen_action
-    agent_movements = agent_movements.append({'Step': step + 1,
-                                              'Team': agent.team,
-                                              'AgentType': agent.agent_type,
-                                              'X': agent.position[0],
-                                              'Y': agent.position[1]}, ignore_index=True)
 
 
-    agent_movements_df = pd.DataFrame(agent_movements)
-    agent_movements_df.to_csv('agent_movements_gettysburg.csv', index=False)
+    def o_infantry_actions(chosen_action):
+        nearest_enemy = min(agents_team_a, key=lambda a: agent_opponent_team.distance_to_agent(a), default=None)
+        agents_in_range = agent_opponent_team.get_agents_in_range(agents_team_a, agent_opponent_team.attack_range)
+        opponent_strategy = nearest_enemy.last_action
+        chosen_action = agent_team_a.chosen_action(AgentTeamA.strategies['A'], AgentTeamA.payoff_matrix, opponent_strategy)
+        if chosen_action == "Attack":
+            if nearest_enemy.health > 0 and agent_opponent_team.distance_to_agent(nearest_enemy) <= agent_opponent_team.attack_range:
+                agent_team_a.attack(nearest_enemy)
+                if nearest_enemy.health <= 0:
+                    agents_team_a.remove(nearest_enemy)
+                    deaths_A[step + 1] += 1
+                    with open('deaths_team_a_gettysburg.csv', 'a') as file:
+                        file.write(f"{step + 1},{deaths_A[step + 1]}\n")
+        elif chosen_action == "Defend":
+            num_friends, num_enemies = agent_opponent_team.count_friends_and_enemies(agents_in_range)
+            if num_enemies > num_friends:
+                common_point = (100, 50)
+                agent_opponent_team.retreat_to_common_point(common_point)
+                if nearest_enemy.health > 0:
+                    if agent_opponent_team.distance_to_agent(nearest_enemy) <= agent_opponent_team.attack_range:
+                        agent_opponent_team.attack(nearest_enemy)
+                        if nearest_enemy.health <= 0:
+                            agents_team_a.remove(nearest_enemy)
+                            deaths_A[step + 1] += 1
+                            with open('deaths_team_a_gettysburg.csv', 'a') as file:
+                                file.write(f"{step + 1},{deaths_A[step + 1]}\n")
 
-if __name__ == "__main__":
-    main()
+    def o_cavalry_actions(chosen_action):
+        nearest_enemy = min(agents_team_a, key=lambda a: agent_opponent_team.distance_to_agent(a), default=None)
+        agents_in_range = agent_opponent_team.get_agents_in_range(agents_team_a, agent_opponent_team.attack_range)
+        opponent_strategy = nearest_enemy.last_action
+        chosen_action = agent_team_a.chosen_action(AgentTeamA.strategies['A'], AgentTeamA.payoff_matrix, opponent_strategy)
+        if chosen_action == "Attack":
+            if nearest_enemy.health > 0 and agent_opponent_team.distance_to_agent(nearest_enemy) <= agent_opponent_team.attack_range:
+                agent_opponent_team.attack(nearest_enemy)
+                if nearest_enemy.health <= 0:
+                    agents_team_a.remove(nearest_enemy)
+                    deaths_A[step + 1] += 1
+                    with open('deaths_team_a_gettysburg.csv', 'a') as file:
+                        file.write(f"{step + 1},{deaths_A[step + 1]}\n")
+        elif chosen_action == "Defend":
+            num_friends, num_enemies = agent_opponent_team.count_friends_and_enemies(agents_in_range)
+            if num_enemies > num_friends:
+                common_point = (100, 50)
+                agent_opponent_team.retreat_to_common_point(common_point)
+                if nearest_enemy.health > 0:
+                    if agent_opponent_team.distance_to_agent(nearest_enemy) <= agent_opponent_team.attack_range:
+                        agent_opponent_team.attack(nearest_enemy)
+                        if nearest_enemy.health <= 0:
+                            agents_team_a.remove(nearest_enemy)
+                            deaths_A[step + 1] += 1
+                            with open('deaths_team_a_gettysburg.csv', 'a') as file:
+                                file.write(f"{step + 1},{deaths_A[step + 1]}\n")
 
+    # Update agent_movements dictionary with agent positions
+    if step not in agent_movements:
+        agent_movements[step] = {}
+        agent_movements[step][agent_id] = AgentTeamA.position
+        print("Movement recorded")
+        
+        agent_team_a.last_action = chosen_action
+
+    movements_file = "agent_movements_gettysburg.txt"
+    save_movements_to_file(movements_file, agent_movements)
+
+########################################################################################################
+
+def calculate_centroid(positions):
+    num_positions = len(positions)
+    if num_positions == 0:
+        return (0, 0)
+    sum_x = sum(pos[0] for pos in positions)
+    sum_y = sum(pos[1] for pos in positions)
+    return (sum_x / num_positions, sum_y / num_positions)
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Simulate a battle between two teams with infantry and cavalry.')
+    parser.add_argument('--num_infantry', type=int, default=250, help='Number of infantry per team')
+    parser.add_argument('--num_cavalry', type=int, default=125, help='Number of cavalry per team')
+    return parser.parse_args()
+
+def save_movements_to_file(movements_file, agent_movements):
+    with open(movements_file, 'w') as file:
+        for step, agents in agent_movements.items():
+            agent_info = ';'.join([f"{agent_id},{x},{y}" for agent_id, (x, y) in agents.items()])
+            file.write(f"{step}:{agent_info}\n")
+            
+############################################################################################
+class AgentTeamA:
+    def __init__(self, agent_type, position, health, attack_range, attack_strength, last_action):
+        self.team = "opponent"
+        self.agent_type = agent_type  
+        self.position = position
+        self.health = health
+        self.attack_range = attack_range
+        self.attack_strength = attack_strength
+        self.last_action = "Attack"
+
+    def distance_to_agent(self, agent):
+        return math.sqrt((self.position[0] - agent.position[0])**2 + (self.position[1] - agent.position[1])**2)
+
+    def distance_to(self, position):
+        return math.sqrt((self.position[0] - position[0])**2 + (self.position[1] - position[1])**2)
+
+    def attack(self, nearest_enemy):
+        nearest_enemy.health -= self.attack_strength
+
+    def defend(self, agents_in_range):
+        if not agents_in_range:
+            common_point = (100, 50)  # Opponent team's common point (change as needed)
+            self.retreat_to_common_point(common_point)
+
+    def retreat_to_common_point(self, common_point):
+        dx = common_point[0] - self.position[0]
+        dy = common_point[1] - self.position[1]
+        distance_to_common_point = self.distance_to(common_point)
+        if distance_to_common_point > 0:
+            dx /= distance_to_common_point
+            dy /= distance_to_common_point
+            self.position = (self.position[0] - dx, self.position[1] - dy)
+
+    def get_agents_in_range(self, agents, range_distance):
+        return [agent for agent in agents if agent != self and self.distance_to_agent(agent) <= range_distance]
+
+    def count_friends_and_enemies(self, agents_in_range):
+        friends = [agent for agent in agents_in_range if agent.team == self.team]
+        enemies = [agent for agent in agents_in_range if agent.team != self.team]
+        return len(friends), len(enemies)
+
+    def set_game_theory_info(self, strategies, payoff_matrix):
+        AgentTeamA.strategies = strategies
+        AgentTeamA.payoff_matrix = payoff_matrix
+    
+    def chosen_action(self, opponent_strategy):
+        # NEW CODE (DELETE PROBABLY)
+        new_interpret = {
+            "Attack": "A",
+            "Defend": "B"
+        }
+        opponent_index = team_a_strategies.index(opponent_strategy)
+        print("Agent team, opponent strategy")
+        print((self.team, new_interpret[opponent_strategy]))
+        best_response_index = np.argmax(self.payoff_matrix[(self.team, new_interpret[opponent_strategy])][:, self.players.index(self.team)])
+        print(best_response_index)
+        best_response_action = strategies[self.team][best_response_index]
+        return best_response_action
+        #return self.strategies[self.team][best_response_index]
+
+        
+        
+##########################################################################################
+class AgentOppositeTeam:
+    def __init__(self, agent_type, position, health, attack_range, attack_strength, last_action):
+        self.team = "opponent"
+        self.agent_type = agent_type  
+        self.position = position
+        self.health = health
+        self.attack_range = attack_range
+        self.attack_strength = attack_strength
+        self.last_action = "Attack"
+
+    def distance_to_agent(self, agent):
+        return math.sqrt((self.position[0] - agent.position[0])**2 + (self.position[1] - agent.position[1])**2)
+
+    def distance_to(self, position):
+        return math.sqrt((self.position[0] - position[0])**2 + (self.position[1] - position[1])**2)
+
+    def attack(self, nearest_enemy):
+        nearest_enemy.health -= self.attack_strength
+
+    def defend(self, agents_in_range):
+        if not agents_in_range:
+            common_point = (100, 50)  # Opponent team's common point (change as needed)
+            self.retreat_to_common_point(common_point)
+
+    def retreat_to_common_point(self, common_point):
+        dx = common_point[0] - self.position[0]
+        dy = common_point[1] - self.position[1]
+        distance_to_common_point = self.distance_to(common_point)
+        if distance_to_common_point > 0:
+            dx /= distance_to_common_point
+            dy /= distance_to_common_point
+            self.position = (self.position[0] - dx, self.position[1] - dy)
+
+    def get_agents_in_range(self, agents, range_distance):
+        return [agent for agent in agents if agent != self and self.distance_to_agent(agent) <= range_distance]
+
+    def count_friends_and_enemies(self, agents_in_range):
+        friends = [agent for agent in agents_in_range if agent.team == self.team]
+        enemies = [agent for agent in agents_in_range if agent.team != self.team]
+        return len(friends), len(enemies)
+
+    def set_game_theory_info(self, strategies, payoff_matrix):
+        AgentTeamA.strategies = strategies
+        AgentTeamA.payoff_matrix = payoff_matrix
+    
+    def chosen_action(self, opponent_strategy):
+        # NEW CODE (DELETE PROBABLY)
+        new_interpret = {
+            "Attack": "A",
+            "Defend": "B"
+        }
+        opponent_index = team_a_strategies.index(opponent_strategy)
+        print("Agent team, opponent strategy")
+        print((self.team, new_interpret[opponent_strategy]))
+        best_response_index = np.argmax(self.payoff_matrix[(self.team, new_interpret[opponent_strategy])][:, self.players.index(self.team)])
+        print(best_response_index)
+        best_response_action = strategies[self.team][best_response_index]
+        return best_response_action
+        #return self.strategies[self.team][best_response_index]
+
+###########################################################################################
+class Battlefield:
+    def __init__(self, rows, cols):
+        self.rows = rows
+        self.cols = cols
+        self.grid = [[0 for _ in range(cols)] for _ in range(rows)]
+
+    def set_region(self, x1, y1, x2, y2, value):
+        for y in range(y1, y2 + 1):
+            for x in range(x1, x2 + 1):
+                if 0 <= x < self.cols and 0 <= y < self.rows:
+                    self.grid[y][x] = value
+
+    def get_cell_value(self, x, y):
+        if 0 <= x < self.cols and 0 <= y < self.rows:
+            return self.grid[y][x]
+        return None
+
+
+main()

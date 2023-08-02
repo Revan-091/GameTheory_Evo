@@ -86,6 +86,11 @@ def main():
         deaths_B[step + 1] = 0
 
     agent_a_actions, agent_b_actions = generate_agent_actions()
+<<<<<<< HEAD
+=======
+    print(len(agent_a_actions))
+    print(len(agent_b_actions))
+>>>>>>> f1e9866d22b2d78e8baabc45f23e7282111c51bb
 
     # Create agents
     agents = []

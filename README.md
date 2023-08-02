@@ -5,7 +5,7 @@
 To run the code:
 
 ```
-python3 gettysburg_gt_sim_a.py --num_infantry ### --num_cavalry ###
+python3 gettysburg_gt_sim_a.py --num_soldiers ### --num_cavalry ###
 ```
 
 
@@ -14,14 +14,12 @@ For both teams, it creates also two types of units (agents): Infantry, which hav
 
 The user will input the command above, and instead of hashtags, the user will be able to manipulate the number of infantry and cavalry available, as to conduct soft research into what would have happened if the numbers of the battle changed.
 
-
-To visualize it:
-
+In order to create a more historical accurate representation, the number of troops would go like this
 ```
-python3 gettysburg_sim_a_vis.py
+python3 gettysburg_gt_sim_a.py --num_soldiers 1155 --num_cavalry 495
 ```
+But of course, the user can play with the numbers as they wish.
 
-What this program does is it reads the information stored in the documents pertaining to the deaths of both teams, as well as the movements of each team per step taken in the battle, and will accordingly plot their movements and deaths in the battlefield grid, to create a more user friendly output of the battle, which the user could then compare to the actual result of the battle.
 
 ### The folder named "outdated"...
 Serves the purpose of storing my past programs in case I were to go back and look at them.

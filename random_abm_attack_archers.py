@@ -3,6 +3,8 @@ import random
 import matplotlib.pyplot as plt
 import argparse
 import numpy as np
+# local import of the game theory actions (we precompute the actions for both teams)
+from stochastic_gt import generate_agent_actions
 #Lo que me queda hacer:  -Elegir una batalla y estudiar los movimientos, aplicar game theory (iaia-o)
 #For simulation purposes, this shall only be the third day of battle
 
@@ -43,24 +45,7 @@ class Agent:
         dy /= self.distance_to(common_point)
         self.position = (self.position[0] - dx, self.position[1] - dy)
 
-    def set_game_theory_info(self, strategies, payoff_matrix):
-        AgentTeamA.strategies = strategies
-        AgentTeamA.payoff_matrix = payoff_matrix
-    
-    def chosen_action(self, opponent_strategy):
-        # NEW CODE (DELETE PROBABLY)
-        new_interpret = {
-            "Attack": "A",
-            "Defend": "B"
-        }
-        opponent_index = team_a_strategies.index(opponent_strategy)
-        print("Agent team, opponent strategy")
-        print((self.team, new_interpret[opponent_strategy]))
-        best_response_index = np.argmax(self.payoff_matrix[(self.team, new_interpret[opponent_strategy])][:, self.players.index(self.team)])
-        print(best_response_index)
-        best_response_action = strategies[self.team][best_response_index]
-        return best_response_action
-        #return self.strategies[self.team][best_response_index]
+
 
 
 
@@ -84,29 +69,6 @@ def parse_arguments():
     parser.add_argument('--num_cavalry', type=int, default=400, help='Number of cavalry per team')
     return parser.parse_args()
 
-#Game Theory implementation
-# Define the players and their strategies
-players = ["A", "B"]
-strategies = {
-    "A": ["Attack", "Defend"],
-    "B": ["Attack", "Defend"]
-}
-
-# Define the payoff matrix (using random values for demonstration)
-payoff_matrix = {
-    ("Attack", "Attack"): np.array([[100, 50], [50, 100]]),
-    ("Attack", "Defend"): np.array([[70, 20], [10, 40]]),
-    ("Defend", "Attack"): np.array([[40, 10], [20, 70]]),
-    ("Defend", "Defend"): np.array([[50, 50], [50, 50]])
-}
-
-# Function to get the best response strategy for a player
-def get_best_response(player, opponent_strategy):
-    print("This works")
-    best_response_index = np.argmax(payoff_matrix[(player, opponent_strategy)][:, players.index(player)])
-    return strategies[player][best_response_index]
-
-
 def main():
     # Simulation parameters
     args = parse_arguments()
@@ -122,6 +84,8 @@ def main():
     for step in range(max_steps):
         deaths_A[step + 1] = 0 
         deaths_B[step + 1] = 0
+
+    agent_a_actions, agent_b_actions = generate_agent_actions()
 
     # Create agents
     agents = []
@@ -142,7 +106,7 @@ def main():
         for i in range(num_soldiers_a):
             position = random.choice(pos_list)
         health = 100
-        attack_range = random.uniform(1, 5)
+        attack_range = random.uniform(1, 25)
         attack_strength = random.uniform(20, 30)
         agents.append(Agent("A", "Soldier", position, health, attack_range, attack_strength))
 
@@ -162,19 +126,23 @@ def main():
     # Create agents for team B
     for _ in range(num_soldiers_b):
         position1 = (random.uniform(30, 45), random.uniform(95, 130))
-        position2 = (random.uniform(50, 70), random.uniform(145, 130))
-        pos_list = [position1, position2]
+        position2 = (random.uniform(50, 70), random.uniform(125, 130))
+        position3 = (random.uniform(90, 145), random.uniform(120, 138))
+        position4 = (random.uniform(155, 190), random.uniform(130, 135))
+        pos_list = [position1, position2, position3, position4]
         for i in range(num_soldiers_a):
             position = random.choice(pos_list)
         health = 100
-        attack_range = random.uniform(1, 5) 
+        attack_range = random.uniform(1, 25) 
         attack_strength = random.randint(20, 30)  
         agents.append(Agent("B", "Soldier", position, health, attack_range, attack_strength))
 
     for _ in range(num_cavalry_b):
         position1 = (random.uniform(25, 35), random.uniform(95, 130))
-        position2 = (random.uniform(50, 70), random.uniform(142, 140))
-        pos_list = [position1, position2]
+        position2 = (random.uniform(50, 70), random.uniform(128, 130))
+        position3 = (random.uniform(90, 145), random.uniform(130, 138))
+        position4 = (random.uniform(155, 190), random.uniform(133, 135))
+        pos_list = [position1, position2, position3, position4]
         for i in range(num_soldiers_a):
             position = random.choice(pos_list)
         health = 150
@@ -187,17 +155,22 @@ def main():
     counter = ax.text(8, 9.5, f"Agents B: {num_agents_b}", fontsize=12, ha='right')
 
     # Simulation loop
-    step_counter = 0
     for step in range(max_steps):
         # Update step_counter at the beginning of each iteration
         formation_a, formation_b = create_formations(agents)
-        
+        percentage_a = 0.25
+        if num_agents_a <= (num_agents_a * percentage_a):
+            print("///////////////////////////////////////////////////////////")
+        print(num_agents_a)
         active_agents = len(agents)
         for agent in agents:
             # Find the nearest enemy agent from the opposite team
             nearest_enemy = min([a for a in agents if a.team != agent.team], key=lambda a: agent.distance_to(a))
             opponent_strategy = nearest_enemy.last_action
-            chosen_action = agent_team_a.chosen_action(AgentTeamA.strategies['A'], AgentTeamA.payoff_matrix, opponent_strategy)
+            if agent.team == "A":
+                chosen_action = agent_a_actions[step]
+            else:
+                chosen_action = agent_b_actions[step]
             # Get agents in range of the current agent
             agents_in_range = agent.get_agents_in_range(agents, agent.attack_range)
             if agent.agent_type == 'Soldier' or agent.agent_type == 'Cavalry':

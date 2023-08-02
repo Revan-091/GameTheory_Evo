@@ -3,6 +3,8 @@ import random
 import matplotlib.pyplot as plt
 import argparse
 import numpy as np
+# local import of the game theory actions (we precompute the actions for both teams)
+from stochastic_gt import generate_agent_actions
 #Lo que me queda hacer:  -Elegir una batalla y estudiar los movimientos, aplicar game theory (iaia-o)
 #For simulation purposes, this shall only be the third day of battle
 
@@ -123,6 +125,10 @@ def main():
         deaths_A[step + 1] = 0 
         deaths_B[step + 1] = 0
 
+    agent_a_actions, agent_b_actions = generate_agent_actions()
+    print(len(agent_a_actions))
+    print(len(agent_b_actions))
+
     # Create agents
     agents = []
     num_agents_a = num_agents // 2
@@ -187,7 +193,6 @@ def main():
     counter = ax.text(8, 9.5, f"Agents B: {num_agents_b}", fontsize=12, ha='right')
 
     # Simulation loop
-    step_counter = 0
     for step in range(max_steps):
         # Update step_counter at the beginning of each iteration
         formation_a, formation_b = create_formations(agents)
@@ -197,7 +202,10 @@ def main():
             # Find the nearest enemy agent from the opposite team
             nearest_enemy = min([a for a in agents if a.team != agent.team], key=lambda a: agent.distance_to(a))
             opponent_strategy = nearest_enemy.last_action
-            chosen_action = agent_team_a.chosen_action(AgentTeamA.strategies['A'], AgentTeamA.payoff_matrix, opponent_strategy)
+            if agent.team == "A":
+                chosen_action = agent_a_actions[step]
+            else:
+                chosen_action = agent_b_actions[step]
             # Get agents in range of the current agent
             agents_in_range = agent.get_agents_in_range(agents, agent.attack_range)
             if agent.agent_type == 'Soldier' or agent.agent_type == 'Cavalry':

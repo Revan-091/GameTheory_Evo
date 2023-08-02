@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import argparse
 import numpy as np
 #Lo que me queda hacer:  -Elegir una batalla y estudiar los movimientos, aplicar game theory (iaia-o)
-
+#For simulation purposes, this shall only be the third day of battle
 
 # Agent class representing both teams A and B
 class Agent:
@@ -36,11 +36,32 @@ class Agent:
         return len(friends), len(enemies)
 
     def retreat_to_common_point(self, agents, common_point):
+        common_point = (50, 50)
         dx = common_point[0] - self.position[0]
         dy = common_point[1] - self.position[1]
         dx /= self.distance_to(common_point)
         dy /= self.distance_to(common_point)
         self.position = (self.position[0] - dx, self.position[1] - dy)
+
+    def set_game_theory_info(self, strategies, payoff_matrix):
+        AgentTeamA.strategies = strategies
+        AgentTeamA.payoff_matrix = payoff_matrix
+    
+    def chosen_action(self, opponent_strategy):
+        # NEW CODE (DELETE PROBABLY)
+        new_interpret = {
+            "Attack": "A",
+            "Defend": "B"
+        }
+        opponent_index = team_a_strategies.index(opponent_strategy)
+        print("Agent team, opponent strategy")
+        print((self.team, new_interpret[opponent_strategy]))
+        best_response_index = np.argmax(self.payoff_matrix[(self.team, new_interpret[opponent_strategy])][:, self.players.index(self.team)])
+        print(best_response_index)
+        best_response_action = strategies[self.team][best_response_index]
+        return best_response_action
+        #return self.strategies[self.team][best_response_index]
+
 
 
 def create_formations(agents):
@@ -113,10 +134,11 @@ def main():
 
     # Create agents for team A
     for _ in range(num_soldiers_a):
-        position1 = (random.uniform(2, 7), random.uniform(105, 160))
-        position2 = (random.uniform(35, 60), random.uniform(165, 170))
-        position3 = (random.uniform(80, 125), random.uniform(155, 165))
-        pos_list = [position1, position2, position3]
+        position1 = (random.uniform(2, 10), random.uniform(85, 145))
+        position2 = (random.uniform(45, 70), random.uniform(155, 170))
+        position3 = (random.uniform(90, 145), random.uniform(155, 165))
+        position4 = (random.uniform(155, 190), random.uniform(145, 160))
+        pos_list = [position1, position2, position3, position4]
         for i in range(num_soldiers_a):
             position = random.choice(pos_list)
         health = 100
@@ -127,7 +149,9 @@ def main():
     for _ in range(num_cavalry_a):
         position1 = (random.uniform(7, 9), random.uniform(105, 160))
         position2 = (random.uniform(45, 60), random.uniform(165, 168))
-        pos_list = [position1, position2]
+        position3 = (random.uniform(90, 145), random.uniform(155, 159))
+        position4 = (random.uniform(155, 190), random.uniform(145, 150))
+        pos_list = [position1, position2, position3, position4]
         for i in range(num_soldiers_a):
             position = random.choice(pos_list)
         health = 150
@@ -162,63 +186,21 @@ def main():
     fig, ax = plt.subplots()
     counter = ax.text(8, 9.5, f"Agents B: {num_agents_b}", fontsize=12, ha='right')
 
-
-    #agents_active_list = []
     # Simulation loop
+    step_counter = 0
     for step in range(max_steps):
-        # Iterate over all agents
-        # Check if step is over 40, if yes, reset retreat behavior
-        if step > 40:
-            retreat_point = None
-        else:
-            retreat_point = (100, 100)
-
+        # Update step_counter at the beginning of each iteration
         formation_a, formation_b = create_formations(agents)
         
         active_agents = len(agents)
         for agent in agents:
             # Find the nearest enemy agent from the opposite team
             nearest_enemy = min([a for a in agents if a.team != agent.team], key=lambda a: agent.distance_to(a))
-
+            opponent_strategy = nearest_enemy.last_action
+            chosen_action = agent_team_a.chosen_action(AgentTeamA.strategies['A'], AgentTeamA.payoff_matrix, opponent_strategy)
             # Get agents in range of the current agent
             agents_in_range = agent.get_agents_in_range(agents, agent.attack_range)
-            if agent.agent_type == 'A':
-                #num_friends, num_enemies = agent.count_friends_and_enemies(agents_in_range)
-                if step < 40:
-                    common_point = (0, 150)  # The common point is the center of the map (you can adjust it as desired)
-                    agent.retreat_to_common_point(agents, common_point)
-                    enemy_formation = formation_b if agent.team == 'A' else formation_a
-                    enemy_formation_positions = [a.position for a in enemy_formation]
-                    common_point = calculate_centroid(enemy_formation_positions)
-
-                    agent.retreat_to_common_point(agents, common_point)
-
-                if retreat_point is not None:
-                        agent.retreat_to_common_point(agents, retreat_point)  # Retreat behavior to (100, 100)
-
-            if agent.agent_type == 'B':
-                num_friends, num_enemies = agent.count_friends_and_enemies(agents_in_range)
-                if num_enemies > num_friends:
-                    common_point = (100, 50)  # The common point is the center of the map (you can adjust it as desired)
-                    agent.retreat_to_common_point(agents, common_point)
-                    
-
-                # Attack if an enemy is within the agent's attack range
-                if agent.distance_to(nearest_enemy) <= agent.attack_range:
-                    agent.attack(nearest_enemy)
-                    if nearest_enemy.health <= 0:
-                        agents.remove(nearest_enemy)
-                        print(f"{nearest_enemy.team} {nearest_enemy.agent_type} died!")
-                        if agent.team == "A":
-                            deaths_B[step + 1] += 1  # Increment deaths counter for Team B
-                            with open('deaths_team_b.csv', 'a') as file:
-                                file.write(f"{step + 1},{deaths_B[step + 1]}\n")
-                        elif agent.team == "B":
-                            deaths_A[step + 1] += 1  # Increment deaths counter for Team A
-                            with open('deaths_team_a.csv', 'a') as file:
-                                file.write(f"{step + 1},{deaths_A[step + 1]}\n")
-            
-            elif agent.agent_type == 'Soldier' or agent.agent_type == 'Cavalry':
+            if agent.agent_type == 'Soldier' or agent.agent_type == 'Cavalry':
                 # Move towards the nearest enemy agent
                 dx = nearest_enemy.position[0] - agent.position[0]
                 dy = nearest_enemy.position[1] - agent.position[1]

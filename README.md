@@ -4,6 +4,21 @@ This battle simulation program is a Python-based application that simulates a ba
 
 # Running the code
 
+Before running the actual code:
+
+Make sure to have these two libraries installed, as they are pivotal for the program.
+
+```
+pip install matplotlib
+```
+This library will plot the simulation.
+
+```
+pip install nashpy
+```
+This library facilittes the use of game theory on the simulation.
+
+
 To run the code:
 
 ```

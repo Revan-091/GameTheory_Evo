@@ -199,6 +199,10 @@ To enhance the realism of the simulation, the agent-based model also introduces 
 
 As previously said before, the Game Theory implementation uses randomization in its computation of the agent's movements. Thus, the simulation has been run ten times to visualize the movement of the agents in diferent instances of the battle. In the actual battle, the Union were forced to retreat to Cemetery Hill, where General Lee sent his Brigadier General George E. Pickett with his infantry division thorugh the middle of the Union's army. Albeit being half of the total number of the Confederate army, it was a catastrophic result for the Confederates, who by the end of the battle were forced to retreat, having lost around 66 percent of their force. In the simulation, the Confederates will not carry out the same strategy, instead they will stay in formation and attack the Union from the West, North and East of the map.
 
+In these ten runs of the simulation, the Union, after retreating on and off at the start of the battle, used sheer number strength and overpowered the Confederates. In figures 3-5, we can see some of the results from the simulations.
+
+
+
 
 
 \section{Summary and conclusions}

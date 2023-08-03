@@ -117,8 +117,8 @@ def main():
         agents.append(Agent("A", "Soldier", position, health, attack_range, attack_strength))
 
     for _ in range(num_cavalry_a):
-        position1 = (random.uniform(7, 9), random.uniform(85, 140))
-        position2 = (random.uniform(45, 60), random.uniform(155, 168))
+        position1 = (random.uniform(7, 9), random.uniform(105, 160))
+        position2 = (random.uniform(45, 60), random.uniform(165, 168))
         position3 = (random.uniform(90, 145), random.uniform(155, 159))
         position4 = (random.uniform(155, 190), random.uniform(145, 150))
         pos_list = [position1, position2, position3, position4]
@@ -159,15 +159,6 @@ def main():
     # Initialize figure and counter for visualization
     fig, ax = plt.subplots()
     counter = ax.text(8, 9.5, f"Agents B: {num_agents_b}", fontsize=12, ha='right')
-
-    # Add arrows for direction indicators
-    ax.arrow(100, 100, 0, 10, head_width=1, head_length=2, fc='k', ec='k')   # North
-    ax.arrow(100, 100, 0, -10, head_width=1, head_length=2, fc='k', ec='k')  # South
-    ax.arrow(100, 100, 10, 0, head_width=1, head_length=2, fc='k', ec='k')   # East
-    ax.arrow(100, 100, -10, 0, head_width=1, head_length=2, fc='k', ec='k')  # West
-
-    # Set aspect ratio to be equal so that arrows are not distorted
-    ax.set_aspect('equal')
 
     # Simulation loop
     for step in range(max_steps):
@@ -257,7 +248,7 @@ def main():
 
         # Pause to visualize each step
         plt.pause(0.1)
-        
+
     # Display the final plot
     plt.show()
 

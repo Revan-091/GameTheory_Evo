@@ -3,10 +3,10 @@ import random
 import matplotlib.pyplot as plt
 import argparse
 import numpy as np
+import sys
+
 # local import of the game theory actions (we precompute the actions for both teams)
 from stochastic_gt import generate_agent_actions
-#Lo que me queda hacer:  -Elegir una batalla y estudiar los movimientos, aplicar game theory (iaia-o)
-#For simulation purposes, this shall only be the third day of battle
 
 # Agent class representing both teams A and B
 class Agent:
@@ -45,10 +45,6 @@ class Agent:
         dy /= self.distance_to(common_point)
         self.position = (self.position[0] - dx, self.position[1] - dy)
 
-
-
-
-
 def create_formations(agents):
     soldiers_a = [agent for agent in agents if agent.team == 'A' and agent.agent_type == 'Soldier']
     cavalry_a = [agent for agent in agents if agent.team == 'A' and agent.agent_type == 'Cavalry']
@@ -69,6 +65,13 @@ def parse_arguments():
     parser.add_argument('--num_cavalry', type=int, default=400, help='Number of cavalry per team')
     return parser.parse_args()
 
+# Function to get the best response strategy for a player
+def get_best_response(player, opponent_strategy):
+    print("This works")
+    best_response_index = np.argmax(payoff_matrix[(player, opponent_strategy)][:, players.index(player)])
+    return strategies[player][best_response_index]
+
+
 def main():
     # Simulation parameters
     args = parse_arguments()
@@ -86,21 +89,20 @@ def main():
         deaths_B[step + 1] = 0
 
     agent_a_actions, agent_b_actions = generate_agent_actions()
-<<<<<<< HEAD
-=======
-    print(len(agent_a_actions))
-    print(len(agent_b_actions))
->>>>>>> f1e9866d22b2d78e8baabc45f23e7282111c51bb
 
     # Create agents
     agents = []
-    num_agents_a = num_agents // 2
-    num_cavalry_a = num_agents_a // 4  # Assuming 1/4 of Team A agents are Cavalry
+    num_agents_a = int(num_agents * 0.44)  # Assuming 56% are from Team B
+    num_cavalry_a = num_agents_a // 6  # Assuming 1/6 of Team A agents are Cavalry
     num_soldiers_a = num_agents_a - num_cavalry_a
     num_agents_b = num_agents - num_agents_a
-    num_cavalry_b = num_agents_b // 4  # Assuming 1/4 of Team B agents are Cavalry
+    num_cavalry_b = num_agents_b // 6  # Assuming 1/6 of Team B agents are Cavalry
     num_soldiers_b = num_agents_b - num_cavalry_b
 
+    initial_agents_a = num_agents_a
+    initial_agents_b = num_agents_b
+
+    
     # Create agents for team A
     for _ in range(num_soldiers_a):
         position1 = (random.uniform(2, 10), random.uniform(85, 145))
@@ -163,14 +165,26 @@ def main():
     for step in range(max_steps):
         # Update step_counter at the beginning of each iteration
         formation_a, formation_b = create_formations(agents)
-        percentage_a = 0.25
-        if num_agents_a <= (num_agents_a * percentage_a):
-            print("///////////////////////////////////////////////////////////")
-        print(num_agents_a)
+        
+        remaining_agents_a = len([agent for agent in agents if agent.team == 'A'])
+        remaining_agents_b = len([agent for agent in agents if agent.team == 'B'])
+        
+        if remaining_agents_a < num_agents_a * 0.3:
+            print("____________")
+            print("Team B won!")
+            print("____________")
+            sys.exit()
+        elif remaining_agents_b < num_agents_b * 0.3:
+            print("____________")
+            print("Team A won!")
+            print("____________")
+            sys.exit()
+        
         active_agents = len(agents)
         for agent in agents:
             # Find the nearest enemy agent from the opposite team
             nearest_enemy = min([a for a in agents if a.team != agent.team], key=lambda a: agent.distance_to(a))
+            nearest_friend = min([a for a in agents if a.team == agent.team], key=lambda a: agent.distance_to(a))
             opponent_strategy = nearest_enemy.last_action
             if agent.team == "A":
                 chosen_action = agent_a_actions[step]
@@ -179,12 +193,24 @@ def main():
             # Get agents in range of the current agent
             agents_in_range = agent.get_agents_in_range(agents, agent.attack_range)
             if agent.agent_type == 'Soldier' or agent.agent_type == 'Cavalry':
-                # Move towards the nearest enemy agent
-                dx = nearest_enemy.position[0] - agent.position[0]
-                dy = nearest_enemy.position[1] - agent.position[1]
-                dx /= agent.distance_to(nearest_enemy)
-                dy /= agent.distance_to(nearest_enemy)
-                agent.position = (agent.position[0] + dx, agent.position[1] + dy)
+                if chosen_action == 'attack':
+                    # Move towards the nearest enemy agent
+                    dx = nearest_enemy.position[0] - agent.position[0]
+                    dy = nearest_enemy.position[1] - agent.position[1]
+                    dx /= agent.distance_to(nearest_enemy)
+                    dy /= agent.distance_to(nearest_enemy)
+                    agent.position = (agent.position[0] + dx, agent.position[1] + dy)
+                else:
+                    retreat_point = (100, 100)
+                    # Move towards the fixed retreat point (100, 100) if not attacking
+                    dx = retreat_point[0] - agent.position[0]
+                    dy = retreat_point[1] - agent.position[1]
+                    norm = math.sqrt(dx**2 + dy**2)  # Calculate the norm of the vector
+                    if norm != 0:
+                        dx /= norm  # Normalize the x-component
+                        dy /= norm  # Normalize the y-component
+                    agent.position = (agent.position[0] + dx, agent.position[1] + dy)
+
 
                 # Attack if an enemy is within the agent's attack range
                 if agent.distance_to(nearest_enemy) <= agent.attack_range:
@@ -201,20 +227,17 @@ def main():
                             with open('deaths_team_a.csv', 'a') as file:
                                 file.write(f"{step + 1},{deaths_A[step + 1]}\n")
 
-        #   active_agents_list.append(active_agents)
-        #  with open('active_agents.csv', 'a') as file:
-        #     file.write(f"{step + 1},{active_agents[step + 1]}\n")
         # Clear the previous frame
         ax.clear()
 
         # Plot agents
         for agent in agents:
             if agent.team == 'A':
-                color = 'red' if agent.agent_type == 'Archer' else 'salmon' if agent.agent_type == 'Soldier' else 'indianred'  # Archers: red, Soldiers: salmon, Cavalry: indianred
-                marker = '^' if agent.agent_type == 'Archer' else 'X' if agent.agent_type == 'Soldier' else 's'  # Archers: ^, Soldiers: X, Cavalry: s
+                color = 'salmon' if agent.agent_type == 'Soldier' else 'indianred'  # Soldiers: salmon, Cavalry: indianred
+                marker = 'X' if agent.agent_type == 'Soldier' else 's'  # Soldiers: X, Cavalry: s
             if agent.team == "B":
-                color = 'blue' if agent.agent_type == 'Archer' else 'lightblue' if agent.agent_type == 'Soldier' else 'royalblue'  # Archers: blue, Soldiers: lightblue, Cavalry: royalblue
-                marker = 'v' if agent.agent_type == 'Archer' else 'o' if agent.agent_type == 'Soldier' else 'D'  # Archers: v, Soldiers: o, Cavalry: D
+                color = 'lightblue' if agent.agent_type == 'Soldier' else 'royalblue'  # Soldiers: lightblue, Cavalry: royalblue
+                marker = 'o' if agent.agent_type == 'Soldier' else 'D'  # Soldiers: o, Cavalry: D
             ax.scatter(agent.position[0], agent.position[1], c=color, marker=marker)
 
         # Set plot limits
@@ -233,16 +256,9 @@ def main():
         # Pause to visualize each step
         plt.pause(0.1)
 
-    # Check winning team and display message
-    remaining_agents_a = len([agent for agent in agents if agent.team == 'A'])
-    remaining_agents_b = len([agent for agent in agents if agent.team == 'B'])
-    if remaining_agents_a == 0:
-        print("Team B won!")
-    elif remaining_agents_b == 0:
-        print("Team A won!")
-
     # Display the final plot
     plt.show()
 
 if __name__ == "__main__":
     main()
+

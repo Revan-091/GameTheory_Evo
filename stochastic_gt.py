@@ -27,7 +27,3 @@ def generate_agent_actions():
     
     # row_actions all attack, column actions attack and defend
     return row_actions_list, column_actions_list
-<<<<<<< HEAD
-=======
-
->>>>>>> f1e9866d22b2d78e8baabc45f23e7282111c51bb

@@ -218,14 +218,7 @@ def main():
                     if nearest_enemy.health <= 0:
                         agents.remove(nearest_enemy)
                         print(f"{nearest_enemy.team} {nearest_enemy.agent_type} died!")
-                        if agent.team == "A":
-                            deaths_B[step + 1] += 1  # Increment deaths counter for Team B
-                            with open('deaths_team_b.csv', 'a') as file:
-                                file.write(f"{step + 1},{deaths_B[step + 1]}\n")
-                        elif agent.team == "B":
-                            deaths_A[step + 1] += 1  # Increment deaths counter for Team A
-                            with open('deaths_team_a.csv', 'a') as file:
-                                file.write(f"{step + 1},{deaths_A[step + 1]}\n")
+                        
 
         # Clear the previous frame
         ax.clear()

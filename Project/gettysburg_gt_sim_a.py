@@ -180,12 +180,18 @@ def main():
         if remaining_agents_a < num_agents_a * 0.3:
             print("____________")
             print("Team B won!")
+            print(f"Remaining Agents -A: {remaining_agents_a}")
+            print(f"Remaining Agents -B: {remaining_agents_b}")
             print("____________")
+            plt.pause(2)
             sys.exit()
         elif remaining_agents_b < num_agents_b * 0.3:
             print("____________")
             print("Team A won!")
+            print(f"Remaining Agents -A: {remaining_agents_a}")
+            print(f"Remaining Agents -B: {remaining_agents_b}")
             print("____________")
+            plt.pause(2)
             sys.exit()
         
         active_agents = len(agents)

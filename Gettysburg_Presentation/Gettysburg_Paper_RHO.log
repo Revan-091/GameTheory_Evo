@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2023.8.1)  3 AUG 2023 09:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2023.8.1)  3 AUG 2023 10:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -609,20 +609,37 @@ File: sim_gett_map.png Graphic file (type png)
 <use sim_gett_map.png>
 Package pdftex.def Info: sim_gett_map.png  used on input line 182.
 (pdftex.def)             Requested size: 170.71652pt x 111.92145pt.
+<Battle_1.png, id=13, 330.23375pt x 331.2375pt>
+File: Battle_1.png Graphic file (type png)
+<use Battle_1.png>
+Package pdftex.def Info: Battle_1.png  used on input line 206.
+(pdftex.def)             Requested size: 170.71652pt x 171.23868pt.
+<Battle_2.png, id=14, 330.23375pt x 331.2375pt>
+File: Battle_2.png Graphic file (type png)
+<use Battle_2.png>
+Package pdftex.def Info: Battle_2.png  used on input line 214.
+(pdftex.def)             Requested size: 170.71652pt x 171.23868pt.
+<Battle_3.png, id=15, 330.23375pt x 331.2375pt>
+File: Battle_3.png Graphic file (type png)
+<use Battle_3.png>
+Package pdftex.def Info: Battle_3.png  used on input line 222.
+(pdftex.def)             Requested size: 170.71652pt x 171.23868pt.
  [2 <./Gettysburg_map.png> <./sim_gett_map.png>]
-No file Gettysburg_Paper_RHO.bbl.
-[3
+Underfull \vbox (badness 1424) has occurred while \output is active []
 
-] (./Gettysburg_Paper_RHO.aux)
+
+No file Gettysburg_Paper_RHO.bbl.
+[3 <./Battle_1.png> <./Battle_2.png> <./Battle_3.png>]
+(./Gettysburg_Paper_RHO.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4739 strings out of 476091
- 72971 string characters out of 5794082
+ 4761 strings out of 476091
+ 73332 string characters out of 5794082
  1865330 words of memory out of 5000000
- 25053 multiletter control sequences out of 15000+600000
+ 25072 multiletter control sequences out of 15000+600000
  539281 words of font info for 98 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  72i,6n,76p,959b,315s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -631,10 +648,10 @@ e/texmf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
 w/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a
 .pfb>
-Output written on Gettysburg_Paper_RHO.pdf (3 pages, 423225 bytes).
+Output written on Gettysburg_Paper_RHO.pdf (3 pages, 440420 bytes).
 PDF statistics:
- 40 PDF objects out of 1000 (max. 8388607)
+ 46 PDF objects out of 1000 (max. 8388607)
  22 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

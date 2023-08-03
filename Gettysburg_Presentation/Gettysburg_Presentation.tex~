@@ -1,0 +1,28 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+\usetheme{Madrid}  % You can change the theme by selecting a different one.
+
+% Title slide information
+\title{A Game Theory Simulation on the Battle of Gettysburg using Agent Based Modeling}
+\author{Rubén Hernández O'kelly\\{\small rhernandezokelly@gmail.com}}
+\institute{Institute for Computing in Research}
+\date{\today}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Slide with bullet points
+\begin{frame}
+  \frametitle{Peering into the Past: A Historical Context}
+  \begin{itemize}
+    \item Item 1: This is the first bullet point.
+    \item Item 2: This is the second bullet point.
+    \item Item 3: This is the third bullet point.
+  \end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,5 +1,7 @@
 # Background
-...
+
+This battle simulation program is a Python-based application that simulates a battlefield scenario of the battle of Gettysburg, a very important battle of the American Civil War, between two teams, Team A and Team B, which depict the Confederate troops (Team A), and the Union troops (Team B), which were present at the time, consisting of soldiers and cavalry. The program uses game theory concepts to guide agents' decision-making, allowing for strategic combat interactions. The simulation takes place on a 2D grid, where agents have attributes like health, attack range, and attack strength. The program visualizes the battlefield in real-time using Matplotlib and records agent deaths in each step, facilitating analysis and comparison of team performance. It serves as a valuable tool for studying AI strategies, agent interactions, and game theory applications in complex scenarios. For the sake of the program, the number of agents is proportional to the actual number of soldiers who were active in the battle.
+
 # Running the code
 
 To run the code:
@@ -22,4 +24,4 @@ But of course, the user can play with the numbers as they wish.
 
 
 ### The folder named "outdated"...
-Serves the purpose of storing my past programs in case I were to go back and look at them.
+Serves the purpose of storing my past programs for this project.

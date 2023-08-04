@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2023.8.1)  3 AUG 2023 10:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2023.8.1)  4 AUG 2023 09:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -467,6 +467,37 @@ File: ot1txr.fd 2000/12/15 v3.1
 
 LaTeX Warning: Label `fig:Map' multiply defined.
 
+
+LaTeX Warning: Label `fig:Simulation' multiply defined.
+
+
+LaTeX Warning: Label `fig:Simulation' multiply defined.
+
+
+LaTeX Warning: Label `fig:Simulation' multiply defined.
+
+
+Package natbib Warning: Citation `G' multiply defined.
+
+
+! Package natbib Error: Bibliography not compatible with author-year citations.
+
+(natbib)                Press <return> to continue in numerical citation style.
+
+
+See the natbib package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.23 ...mand\NAT@force@numbers{}\NAT@force@numbers
+                                                  
+? 
+
+LaTeX Warning: Label `fig:Simulation' multiply defined.
+
+
+LaTeX Warning: Label `fig:Simulation' multiply defined.
+
 )
 \openout1 = `Gettysburg_Paper_RHO.aux'.
 
@@ -569,28 +600,31 @@ e
 LaTeX Font Info:    Font shape `OT1/txr/b/n' in size <10> not available
 (Font)              Font shape `OT1/txr/bx/n' tried instead on input line 108.
 LaTeX Font Info:    Trying to load font information for U+txmia on input line 1
-36.
+37.
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/utxmia.fd
 File: utxmia.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 136
+LaTeX Font Info:    Trying to load font information for U+msa on input line 137
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 136
+LaTeX Font Info:    Trying to load font information for U+msb on input line 137
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for U+txsyc on input line 1
-36.
+37.
 
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/utxsyc.fd
 File: utxsyc.fd 2000/12/15 v3.1
 )
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Overfull \hbox (1.90001pt too wide) has occurred while \output is active
 [] 
  []
@@ -602,56 +636,102 @@ Overfull \hbox (1.90001pt too wide) has occurred while \output is active
 <Gettysburg_map.png, id=10, 476.78125pt x 512.91624pt>
 File: Gettysburg_map.png Graphic file (type png)
 <use Gettysburg_map.png>
-Package pdftex.def Info: Gettysburg_map.png  used on input line 174.
+Package pdftex.def Info: Gettysburg_map.png  used on input line 175.
 (pdftex.def)             Requested size: 170.71652pt x 183.65575pt.
 <sim_gett_map.png, id=12, 483.8075pt x 317.185pt>
 File: sim_gett_map.png Graphic file (type png)
 <use sim_gett_map.png>
-Package pdftex.def Info: sim_gett_map.png  used on input line 182.
+Package pdftex.def Info: sim_gett_map.png  used on input line 183.
 (pdftex.def)             Requested size: 170.71652pt x 111.92145pt.
-<Battle_1.png, id=13, 330.23375pt x 331.2375pt>
+ [2 <./Gettysburg_map.png> <./sim_gett_map.png>]
+<Battle_1.png, id=18, 330.23375pt x 331.2375pt>
 File: Battle_1.png Graphic file (type png)
 <use Battle_1.png>
-Package pdftex.def Info: Battle_1.png  used on input line 206.
+Package pdftex.def Info: Battle_1.png  used on input line 205.
 (pdftex.def)             Requested size: 170.71652pt x 171.23868pt.
-<Battle_2.png, id=14, 330.23375pt x 331.2375pt>
+<Battle_2.png, id=19, 330.23375pt x 331.2375pt>
 File: Battle_2.png Graphic file (type png)
 <use Battle_2.png>
-Package pdftex.def Info: Battle_2.png  used on input line 214.
+Package pdftex.def Info: Battle_2.png  used on input line 213.
 (pdftex.def)             Requested size: 170.71652pt x 171.23868pt.
-<Battle_3.png, id=15, 330.23375pt x 331.2375pt>
+<Battle_3.png, id=20, 330.23375pt x 331.2375pt>
 File: Battle_3.png Graphic file (type png)
 <use Battle_3.png>
-Package pdftex.def Info: Battle_3.png  used on input line 222.
+Package pdftex.def Info: Battle_3.png  used on input line 221.
 (pdftex.def)             Requested size: 170.71652pt x 171.23868pt.
- [2 <./Gettysburg_map.png> <./sim_gett_map.png>]
-Underfull \vbox (badness 1424) has occurred while \output is active []
+<Equal_Battle.png, id=21, 330.23375pt x 331.2375pt>
+File: Equal_Battle.png Graphic file (type png)
+<use Equal_Battle.png>
+Package pdftex.def Info: Equal_Battle.png  used on input line 234.
+(pdftex.def)             Requested size: 170.71652pt x 171.23868pt.
+<Equal_battle_2.png, id=22, 330.23375pt x 331.2375pt>
+File: Equal_battle_2.png Graphic file (type png)
+<use Equal_battle_2.png>
+Package pdftex.def Info: Equal_battle_2.png  used on input line 242.
+(pdftex.def)             Requested size: 170.71652pt x 171.23868pt.
+<Equal_battle_3.png, id=23, 330.23375pt x 331.2375pt>
+File: Equal_battle_3.png Graphic file (type png)
+<use Equal_battle_3.png>
+Package pdftex.def Info: Equal_battle_3.png  used on input line 250.
+(pdftex.def)             Requested size: 170.71652pt x 171.23868pt.
+
+Underfull \vbox (badness 4217) has occurred while \output is active []
+
+ [3 <./Battle_1.png> <./Battle_2.png> <./Battle_3.png> <./Equal_Battle.png>]
+Underfull \vbox (badness 1231) has occurred while \output is active []
 
 
-No file Gettysburg_Paper_RHO.bbl.
-[3 <./Battle_1.png> <./Battle_2.png> <./Battle_3.png>]
-(./Gettysburg_Paper_RHO.aux)
+Underfull \hbox (badness 10000) in paragraph at lines 273--274
+[]\OT1/txr/m/n/8 ettysburg His-toric Cross-roads (July 15th, 2023)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--274
+\OT1/txr/m/it/8 https://www.gettysburgpa.gov/history/slideshows/battle-history\
+OT1/txr/m/n/8 , Penn-
+ []
+
+
+Overfull \hbox (24.23999pt too wide) in paragraph at lines 274--275
+[]\OT1/txr/m/n/8 ettysburg (July 15th, 2023) \OT1/txr/m/it/8 https://www.gettys
+burgpa.gov/history/slideshows/battle-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 275--276
+[]\OT1/txr/m/n/8 ashPy Doc-u-men-ta-tion (July 11th, 2023)
+ []
+
+
+Package natbib Warning: There were multiply defined citations.
+
+[4 <./Equal_battle_2.png> <./Equal_battle_3.png>] (./Gettysburg_Paper_RHO.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4761 strings out of 476091
- 73332 string characters out of 5794082
- 1865330 words of memory out of 5000000
- 25072 multiletter control sequences out of 15000+600000
+ 4785 strings out of 476091
+ 73779 string characters out of 5794082
+ 1864330 words of memory out of 5000000
+ 25094 multiletter control sequences out of 15000+600000
  539281 words of font info for 98 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,6n,76p,959b,315s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,6n,76p,1561b,315s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
-w/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a
-.pfb>
-Output written on Gettysburg_Paper_RHO.pdf (3 pages, 440420 bytes).
+e/texmf-dist/fonts/type1/public/txfonts/rtxi.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/txfonts/rtxr.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr
+8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Gettysburg_Paper_RHO.pdf (4 pages, 463094 bytes).
 PDF statistics:
- 46 PDF objects out of 1000 (max. 8388607)
- 22 compressed objects within 1 object stream
+ 60 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -107,7 +107,8 @@
 
 \begin{abstract}
 %% Text of abstract
-This paper intends to find the difference between the Battle of Gettysburg, an important battle of the American Civil War, and an agent-based simulation of the battle using the principles of Game Theory as basis for the agents' decisions. In this simulation, the Union will be the main focus. As the simulation ends, the two results will be compared and will show the best actions that the Union could have made.
+This study employs agent-based modeling and game theory to reexamine the Battle of Gettysburg, a pivotal conflict during the American Civil War. By simulating the battle with agents representing Union and Confederate forces, we investigate the impact of strategic decisions on the battle's outcome. Leveraging game theory principles, the simulation enables agents to adapt their actions based on interactions and environmental factors, shedding light on the complex decision-making dynamics faced by historical generals. The comparison between the simulation and actual historical events reveals insights into the Union's potential strategic advantages and opportunities for improved decision-making.
+
 \end{abstract}
 
 %%Graphical abstract
@@ -185,9 +186,9 @@ The program is conducted in such a way that the agents are arranged by formation
   \centering
 \end{figure}
 
-%%%Put the parameters, such as num agents, retreat percentage...
-Upon completion of the simulation, we compare the results with the historical outcome of the Battle of Gettysburg. We evaluate the effectiveness of different strategies employed by the Union agents and identify potential improvements in their decision-making. The findings shed light on the significance of adaptive decision-making and the impact of uncertainty on battle outcomes.
+In this simulation, the Red Team are representing the Confederate army at Gettysburg, while the blue agents represent the Union army. The simulation program encompasses several crucial parameters that dictate the dynamics of the Battle of Gettysburg reenactment. The number of agents per team has been meticulously designed to mirror historical records, with a calculated allocation of soldiers and cavalry for both Union and Confederate forces. For instance, the Union's numerical superiority is represented through a larger contingent of soldiers and cavalry units, accurately reflecting the historical troop composition. Moreover, the simulation incorporates a dynamic losing percentage threshold that triggers victory conditions for one side. When either the Union or Confederate forces retain less than a predetermined percentage of their initial strength, the opposing team is declared the victor. This threshold, carefully calibrated based on historical outcomes, introduces a sense of urgency and realism to the simulation, encouraging players to make strategic decisions that align with historical context. Additionally, other parameters such as attack range, attack strength, and retreat strategies are thoughtfully incorporated, enabling agents to execute tactical maneuvers and replicate the complexity of the actual battle. By fine-tuning these parameters, the simulation not only captures historical authenticity but also facilitates an in-depth exploration of the battle's various scenarios and outcomes.
 
+Upon completion of the simulation, we compare the results with the historical outcome of the Battle of Gettysburg. We evaluate the effectiveness of different strategies employed by the Union agents and identify potential improvements in their decision-making. The findings shed light on the significance of adaptive decision-making and the impact of uncertainty on battle outcomes.
 
 The agent-based simulation of the Battle of Gettysburg is conducted using principles derived from Game Theory, where simulated agents representing Union and Confederate forces make strategic decisions based on interactions with other agents and the battlefield environment. By employing Game Theory as the foundation, the simulation aims to recreate the challenges faced by the real generals during the historic battle and uncover the best possible actions that the Union could have taken.
 
@@ -197,9 +198,7 @@ To enhance the realism of the simulation, the agent-based model also introduces 
 
 \section{Results}
 
-As previously said before, the Game Theory implementation uses randomization in its computation of the agent's movements. Thus, the simulation has been run ten times to visualize the movement of the agents in diferent instances of the battle. In the actual battle, the Union were forced to retreat to Cemetery Hill, where General Lee sent his Brigadier General George E. Pickett with his infantry division thorugh the middle of the Union's army. Albeit being half of the total number of the Confederate army, it was a catastrophic result for the Confederates, who by the end of the battle were forced to retreat, having lost around 66 percent of their force. In the simulation, the Confederates will not carry out the same strategy, instead they will stay in formation and attack the Union from the West, North and East of the map.
-
-In these ten runs of the simulation, the Union, after retreating on and off at the start of the battle, used sheer number strength and overpowered the Confederates. In figures 3-5, we can see some of the results from the simulations.
+As previously said before, the Game Theory implementation uses randomization in its computation of the agent's movements. Thus, the simulation has been run ten times to visualize the movement of the agents in diferent instances of the battle. In the actual battle, the Union were forced to retreat to Cemetery Hill, where General Lee sent his Brigadier General George E. Pickett with his infantry division thorugh the middle of the Union's army. Albeit being half of the total number of the Confederate army, it was a catastrophic result for the Confederates, who by the end of the battle were forced to retreat, having lost around 66 percent of their force. In the simulation, the Confederates will not carry out the same strategy, instead they will stay in formation and attack the Union from the West, North and East of the map. In these ten runs of the simulation, the Union, after retreating on and off at the start of the battle, used sheer number strength and overpowered the Confederates. In figures 3-5, we can see some of the results from the simulations.
 
 \begin{figure}[!ht]
   \centering
@@ -226,34 +225,55 @@ In these ten runs of the simulation, the Union, after retreating on and off at t
 \end{figure}
 
 
-After concluding these simulations, we can conclude that the Union overwhelmed the Confederates with their number in battle, meaning the Confederates would have been doomed one way or anther due to the That said, If the numbers were more equal, it would be safe to say that the Confederates would have overrun the Union defenses, giving way for the rest of the armies from the South to attack the northern territories, changing the course of history.
+After concluding these simulations, we can conclude that the Union overwhelmed the Confederates with their number in battle, meaning the Confederates would have been doomed one way or anther due to the overwhelming numbers of the Union. That said, if the numbers would have been more equal, it would be safe to say that the battle could have been won by either side, as showed in Figures 6, 7, and 8. In these simulations, we manipulated the number of agents per team to be equal, thus eliminating the advantage the Union had of overwhelming numbers over the Confederates. It is my conclusion, that were the numbers equal in the battle, whomever controlled the 
+In these cases, the Confederate army would have overrun the Union defenses, giving way for the rest of the armies from the South to attack the northern territories, changing the course of history.
 
 %Photo of different scenario
+\begin{figure}[!ht]
+  \centering
+      \includegraphics[width=6cm]{Equal_Battle.png}
+      \caption{Equal Battle Simulation 1}
+      \label{fig:Simulation}
+  \centering
+\end{figure}
 
-\section{Summary and conclusions}
+\begin{figure}[!ht]
+  \centering
+      \includegraphics[width=6cm]{Equal_battle_2.png}
+      \caption{Equal Battle Simulation 2}
+      \label{fig:Simulation}
+  \centering
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+      \includegraphics[width=6cm]{Equal_battle_3.png}
+      \caption{Equal Battle Simulation 3}
+      \label{fig:Simulation}
+  \centering
+\end{figure}
+
+\section{Summary and Future work}
 %%\label{}
-\lipsum[1-4]
+In reexamining the Battle of Gettysburg through agent-based modeling and game theory, our study offers fresh insights into the complexities of historical decision-making. By simulating the battle dynamics, we illuminate the interplay of strategy, uncertainty, and numerical advantage that shaped the outcome. Our simulations underscore the crucial role of numbers in historical conflicts, highlighting the delicate balance between strategy and resources.
+
+Our simulations emphasized the decisive impact of numerical superiority on battle outcomes. The Union's overwhelming numbers played a crucial role in securing victory. Moreover, when the numbers were equalized, the balance between strategy and brute force became evident, highlighting the fine line between triumph and defeat.
+
+As for the future of this project, I would like to add more parameters to create more of a realistic simulation, as well as passing the visualization model onto a more visible engine that could create a better model.
 
 
 \section*{Acknowledgements}
-Thanks to ...
-
-%% The Appendices part is started with the command \appendix;
-%% appendix sections are then done as normal sections
-\appendix
-
-\section{Appendix title 1}
-%% \label{}
-
-\section{Appendix title 2}
-%% \label{}
+Thanks to...
 
 %% If you have bibdatabase file and want bibtex to generate the
 %% bibitems, please use
 %%
 \bibliographystyle{elsarticle-harv} 
-\bibliography{example}
-
+\begin{thebibliography}{9}
+\bibitem  Gettysburg Historic Crossroads (July 15th, 2023) \emph {https://www.gettysburgpa.gov/history/slideshows/battle-history}, Pennsylvania Gov.
+\bibitem  Gettysburg (July 15th, 2023) \emph {https://www.gettysburgpa.gov/history/slideshows/battle-history}, American Battlefield Trust.
+\bibitem  NashPy Documentation (July 11th, 2023) \emph{https://nashpy.readthedocs.io/en/stable/tutorial/index.html}
+\end{thebibliography}
 %% else use the following coding to input the bibitems directly in the
 %% TeX file.
 
@@ -271,4 +291,3 @@ Thanks to ...
 
 \endinput
 %%
-%% End of file `elsarticle-template-harv.tex'.
